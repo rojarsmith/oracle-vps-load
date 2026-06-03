@@ -2,7 +2,18 @@
 
 If a virtual machine (VM) has an average CPU utilization of less than 10%, network utilization of less than 10%, and memory utilization of less than 10% within 7 days, the VM may be marked as idle and terminated.
 
+## Environment
+
+```bash
+sudo chown ubuntu:ubuntu /opt
+cd /opt
+git clone https://github.com/rojarsmith/oracle-vps-load.git /opt/oracle-vps-load
+cd /opt/oracle-vps-load
+```
+
 ## cpp
+
+mock-load ram: 4mb
 
 `mock-load` is a small cross-platform C++ stability-test load generator. It samples the current CPU, memory, and network utilization before applying pressure. If a resource is already at or above the configured target, the matching pressure source backs off.
 
@@ -48,7 +59,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/opt/mock-load/mock-load --duration 0 --cpu-target 1 --memory-target 1 --network-target 0.1 --network-cap-mbps 10
+ExecStart=/opt/mock-load/mock-load --duration 0 --cpu-target 10 --memory-target 10 --network-target 10 --network-cap-mbps 10
 Restart=always
 RestartSec=5
 
@@ -148,10 +159,6 @@ mock-network ram: 70mb
 ### Quick
 
 ```bash
-sudo chown ubuntu:ubuntu /opt
-cd /opt
-git clone https://github.com/rojarsmith/oracle-vps-load.git /opt/oracle-vps-load
-cd /opt/oracle-vps-load
 cd nodejs-separation
 pm2 start ecosystem.config.js
 pm2 save
