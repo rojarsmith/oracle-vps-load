@@ -39,7 +39,7 @@ async function cpuLoop() {
   const gap = 15 - cur;
   if (gap > 0) {
     burnCPU(10000 * (gap / 100));
-    console.log(`[cpu] ${cur.toFixed(1)}% → 補足 ${gap.toFixed(1)}%`);
+    console.log(`[cpu] ${cur.toFixed(1)}% → pad ${gap.toFixed(1)}%`);
   }
   setTimeout(cpuLoop, 10000);
 }
@@ -60,10 +60,11 @@ function checkMemory() {
       for (let j = 0; j < buf.length; j += 4096) buf[j] = 1;
       pool.push(buf);
     }
-    console.log(`[mem] ${pct.toFixed(1)}% → 補 ${need} 塊`);
+    console.log(`[mem] ${pct.toFixed(1)}% → Add ${need} block`);
   } else if (gap < -5 && pool.length > 0) {
     pool.pop();
-    console.log(`[mem] ${pct.toFixed(1)}% 過高 → 釋放一塊`);
+
+    console.log(`[mem] ${pct.toFixed(1)}% Too high → Release a block`);
   }
   setTimeout(checkMemory, 30000);
 }
@@ -107,7 +108,7 @@ function netRequest() {
         ? Math.max(netDelay * 0.7, 2000)
         : Math.min(netDelay * 1.3, 60000);
     console.log(
-      `[net] ${kb.toFixed(1)} KB/s → 下次 ${(netDelay / 1000).toFixed(0)}s`,
+      `[net] ${kb.toFixed(1)} KB/s → next time $​​{(netDelay / 1000).toFixed(0)}s`,
     );
     lastNet = cur;
   }
